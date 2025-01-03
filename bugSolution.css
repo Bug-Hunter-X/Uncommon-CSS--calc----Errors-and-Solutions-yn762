@@ -1,0 +1,41 @@
+/* Correcting calc() errors */
+
+/* Solution for negative width */
+.container {
+  width: calc(100% - 50px);
+  /* If the width is smaller than 50px, make sure there is at least a width of 0px */
+  max-width: 0px;
+}
+
+/* Correcting Operator Precedence */
+.element {
+  width: calc((100% - 20px) / 2);
+  /* This ensures division is performed before subtraction */
+}
+
+/* Correcting unit mismatch */
+.anotherElement {
+  width: calc(100% + 10%); /* Correct */
+  width: calc(100% + 10vw); /* Correct */
+  width: calc(100% + 10px); /* Incorrect: It should be either percentage or px, not mixed */ 
+}
+
+/*Avoid unit mix up in calc(). Using a variable can help to deal with this issue*/
+:root {
+  --element-width: 200px;
+}
+
+.element {
+  width: calc(100% - var(--element-width));
+}
+
+/* Handling potential negative values */
+.element {
+  width: calc(min(100% - 50px, 0px));
+  /* Ensures the width is never negative */
+}
+
+/*Example of nesting calc() */
+.wrapper {
+  width: calc(50% + calc(50% - 10px));
+} 
